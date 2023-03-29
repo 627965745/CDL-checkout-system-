@@ -50,16 +50,22 @@ const Kiosk = () => {
                 updateLastDiscountedItem(20, newCart, item.id);
             } else if (
                 numOfIteminCart(item.id,newCart) % 3 === 0 &&
-                numOfIteminCart(item.id,newCart) > 2
+                numOfIteminCart(item.id,newCart) > 2 &&
+                newCart.filter((i) => i.id === item.id && i.message !== undefined).length === 0
             ) {
-                console.log(numOfIteminCart(item.id,newCart) > 2)
                 updateLastItemToDiscounted(20, newCart, item.id);
             }
-        } else if (
-            item.id === 2 &&
-            (newCart.filter((i) => i.id === 2).length + 1) % 2 === 0
-        ) {
-            updateLastDiscountedItem(15, newCart, item.id);
+        }
+        if (item.id === 2) {
+            if ((numOfIteminCart(item.id,newCart) + 1) % 2 === 0) {
+                updateLastDiscountedItem(15, newCart, item.id);
+            } else if (
+                numOfIteminCart(item.id,newCart) % 2 === 0 &&
+                numOfIteminCart(item.id,newCart) > 1 &&
+                newCart.filter((i) => i.id === item.id && i.message !== undefined).length === 0
+            ) {
+                updateLastItemToDiscounted(15, newCart, item.id);
+            }
         }
     };
 
