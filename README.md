@@ -13,6 +13,15 @@
 
 [commit 6](https://github.com/627965745/CDL-checkout-system-/commit/ee61a4055b740aae8709c5fa9ac991fccba15bf9) is an alternative way of implementing the deleting function by using a new array to track discounts and UseEffect hook to update this array as well as total price.
 
+## Key Decisions and Possible Improvements
+My inital thoughts on this task is to keep it as simple as possiblem, so I want to maintain only one array, which records list of item and speical offer at the same time, it will show (item - price - discount(if applied)), so whenever the discount condition is met, the discount just reflects in the cart list with discounted price, the total price is also adjusted.
+Althought it concludes the task, I felt that deletion is a key function for an application like this, I wanted to give a bit more challenge. I carried on with the original design, I check if a discount condition is broken, if it is, delete the item in cart array with its discount message, and change its price as well as total price, if not, simply delete the item from cart array. However, this design causes bugs when some items are added after deleting, when I try to delete items again, the list does not update correctly, I tried with string matching but did not help much and this approach will involve a lot code changing in the future if there is change of discount scheme or price.
+
+
+## Time Estimate
+While it is obivious from commit timestamp, it took me roughly 1 hour to complete the task.
+And further 5 hours for some extended functionalities.
+
 ## Available Scripts
 
 In the project directory, you can run:
