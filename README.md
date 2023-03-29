@@ -1,10 +1,39 @@
-# Getting Started with Create React App
+# CDL Code Challenge - Checkout System
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Commits Explained
+[commit 1](https://github.com/627965745/CDL-checkout-system-/commit/a640bc314b6c895df38e43050b7269d09db317b8) initialises the repo with an react APP.
+
+[commit 2](https://github.com/627965745/CDL-checkout-system-/commit/6937558ebd5fbdf7192a7046d61d1da6f92f563e) implements the required tasks which allows users to add four different items with different price to a cart. A cart list is made to show all the items and total price of items is also showed. 
+
+[commit 3](https://github.com/627965745/CDL-checkout-system-/commit/0cd3f11bacd5138971a274ab1d5a7a72a4405eaa) implements a discount system. Item A and item B have multibuy discount, when the condition is met, the discount will reflect in the cart list and the total price also changes accordingly.
+
+[commit 4](https://github.com/627965745/CDL-checkout-system-/commit/d08a480ac6f548538ee9b0c2b6a44b948ea3bb41) is an extension of this task which allows user to delete items from cart, the code needs to correctly delete items from cart while maintain the discount scheme, for example, if the multibuy discount applies when 3 same items are bought together, when one of them is deleted, the discount should be voided.
+
+[commit 5](https://github.com/627965745/CDL-checkout-system-/commit/bc34b1305853d6cac66c2bd3a906496df5cc0b98) fixes some bugs in [commit 4](https://github.com/627965745/CDL-checkout-system-/commit/d08a480ac6f548538ee9b0c2b6a44b948ea3bb41) while sometimes the deletion of items does not change the discount scheme correctly. However, there are still some extreme casing this bug to happen.
+
+[commit 6](https://github.com/627965745/CDL-checkout-system-/commit/ee61a4055b740aae8709c5fa9ac991fccba15bf9) is an alternative way of implementing the deleting function by using a new array to track discounts and UseEffect hook to update this array as well as total price.
+
+## Key Decisions and Possible Improvements
+My inital thoughts on this task is to keep it as simple as possiblem, so I want to maintain only one array, which records list of item and speical offer at the same time, it will show (item - price - discount(if applied)), so whenever the discount condition is met, the discount just reflects in the cart list with discounted price, the total price is also adjusted.
+
+Althought it concludes the task, I felt that deletion is a key function for an application like this, I wanted to give a bit more challenge. I carried on with the original design, I check if a discount condition is broken, if it is, delete the item in cart array with its discount message, and change its price as well as total price, if not, simply delete the item from cart array. However, this design causes bugs when some items are added after deleting, when I try to delete items again, the list does not update correctly, I tried with string matching but did not help much and this approach will involve a lot code changing in the future if there is change of discount scheme or price.
+
+I rewrite most of the code for this function, set up a new array to track the discounts, UseEffect is used to check for discount condition whenever there is a change to the cart array, display the discount when neccessary as well as updating the total price. This approcah also removes many complicated methods from the last one.
+
+This application could be improved in many ways. As for now, the item price, discount offer are hardcoded in an const array, if there is a need to change them, eg. if a server is used, many parameter of other methods also need to change, this parameters can be set as a varible referencing the parameter in the array, then the code will still work. Item list, cart list and offer list can be implement separately using React compoments and props if the system grows. The UI can also be redesigned and improved.
+
+
+## Time Estimate
+While it is obivious from commit timestamp, it took me roughly 1 hour to complete the task.
+
+And further 5 hours for some extended functionalities.
 
 ## Available Scripts
 
 In the project directory, you can run:
+
+### `npm install`
+Installs all the dependencies.
 
 ### `npm start`
 
@@ -14,11 +43,6 @@ Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 The page will reload when you make changes.\
 You may also see any lint errors in the console.
 
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
 ### `npm run build`
 
 Builds the app for production to the `build` folder.\
@@ -27,44 +51,3 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.\
 Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
