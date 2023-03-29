@@ -15,7 +15,12 @@
 
 ## Key Decisions and Possible Improvements
 My inital thoughts on this task is to keep it as simple as possiblem, so I want to maintain only one array, which records list of item and speical offer at the same time, it will show (item - price - discount(if applied)), so whenever the discount condition is met, the discount just reflects in the cart list with discounted price, the total price is also adjusted.
+
 Althought it concludes the task, I felt that deletion is a key function for an application like this, I wanted to give a bit more challenge. I carried on with the original design, I check if a discount condition is broken, if it is, delete the item in cart array with its discount message, and change its price as well as total price, if not, simply delete the item from cart array. However, this design causes bugs when some items are added after deleting, when I try to delete items again, the list does not update correctly, I tried with string matching but did not help much and this approach will involve a lot code changing in the future if there is change of discount scheme or price.
+
+I rewrite most of the code for this function, set up a new array to track the discounts, UseEffect is used to check for discount condition whenever there is a change to the cart array, display the discount when neccessary as well as updating the total price. This approcah also removes many complicated methods from the last one.
+
+This application could be improved in many ways. As for now, the item price, discount offer are hardcoded in an const array, if there is a need to change them, eg. if a server is used, many parameter of other methods also need to change, this parameters can be set as a varible referencing the parameter in the array, then the code will still work. The UI change also be redesigned and improved.
 
 
 ## Time Estimate
