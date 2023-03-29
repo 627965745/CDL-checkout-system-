@@ -10,9 +10,9 @@ const Kiosk = () => {
         { id: 3, name: "C", price: 20 },
         { id: 4, name: "D", price: 15 },
     ];
-    const offerA = {message:'Item A buy 3 get £20 off', offerItem: "A"}
-    const offerB = {message:'Item B buy 2 get £15 off', offerItem: "B"}
-    const numOfIteminCart = (id,cart) => {
+    const offerA = { message: "Item A buy 3 get £20 off", offerItem: "A" };
+    const offerB = { message: "Item B buy 2 get £15 off", offerItem: "B" };
+    const numOfIteminCart = (id, cart) => {
         return cart.filter((i) => i.id === id).length;
     };
     const addToCart = (item) => {
@@ -25,19 +25,22 @@ const Kiosk = () => {
         setCart(newCart);
     };
 
-    useEffect(()=> {
-        let numOfOfferA = Math.floor(numOfIteminCart(1,cart) / 3)
-        let numOfOfferB = Math.floor(numOfIteminCart(2,cart) / 2)
+    useEffect(() => {
+        let numOfOfferA = Math.floor(numOfIteminCart(1, cart) / 3);
+        let numOfOfferB = Math.floor(numOfIteminCart(2, cart) / 2);
         let newOffersA = Array.from({ length: numOfOfferA }, () => offerA);
         let newOffersB = Array.from({ length: numOfOfferB }, () => offerB);
-        let newTotalPrice = numOfIteminCart(1,cart) * 50 + numOfIteminCart(2,cart) * 30 + numOfIteminCart(3,cart) * 20 + numOfIteminCart(4,cart) * 15
-        let OfferList = newOffersA.concat(newOffersB)
+        let newTotalPrice =
+            numOfIteminCart(1, cart) * 50 +
+            numOfIteminCart(2, cart) * 30 +
+            numOfIteminCart(3, cart) * 20 +
+            numOfIteminCart(4, cart) * 15;
+        let OfferList = newOffersA.concat(newOffersB);
         OfferList = OfferList.map((item, index) => ({ ...item, key: index }));
-        setOffer(OfferList)
-        let totalOffer = numOfOfferA * 20 + numOfOfferB * 15
-        console.log(totalOffer)
-        setTotalPrice(totalPrice => newTotalPrice - totalOffer)
-    },[cart]) 
+        setOffer(OfferList);
+        let totalOffer = numOfOfferA * 20 + numOfOfferB * 15;
+        setTotalPrice((totalPrice) => newTotalPrice - totalOffer);
+    }, [cart]);
 
     return (
         <div>
@@ -55,7 +58,7 @@ const Kiosk = () => {
                         </div>
                     ))}
                 </div>
-                <div style={{ width: "auto", paddingRight:"20px"}}>
+                <div style={{ width: "auto", paddingRight: "20px" }}>
                     <h3>Total Price: £{totalPrice}</h3>
                     <h3>Items in cart:</h3>
                     <ul>
@@ -70,13 +73,11 @@ const Kiosk = () => {
                         ))}
                     </ul>
                 </div>
-                <div style={{ width: "auto"}}>
+                <div style={{ width: "auto" }}>
                     <h3>Offer applied:</h3>
                     <ul>
                         {offer.map((offer) => (
-                            <li key={offer.key}>
-                                {offer.message}
-                            </li>
+                            <li key={offer.key}>{offer.message}</li>
                         ))}
                     </ul>
                 </div>
