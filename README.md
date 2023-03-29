@@ -20,11 +20,12 @@ Althought it concludes the task, I felt that deletion is a key function for an a
 
 I rewrite most of the code for this function, set up a new array to track the discounts, UseEffect is used to check for discount condition whenever there is a change to the cart array, display the discount when neccessary as well as updating the total price. This approcah also removes many complicated methods from the last one.
 
-This application could be improved in many ways. As for now, the item price, discount offer are hardcoded in an const array, if there is a need to change them, eg. if a server is used, many parameter of other methods also need to change, this parameters can be set as a varible referencing the parameter in the array, then the code will still work. The UI change also be redesigned and improved.
+This application could be improved in many ways. As for now, the item price, discount offer are hardcoded in an const array, if there is a need to change them, eg. if a server is used, many parameter of other methods also need to change, this parameters can be set as a varible referencing the parameter in the array, then the code will still work. Item list, cart list and offer list can be implement separately using React compoments and props if the system grows. The UI can also be redesigned and improved.
 
 
 ## Time Estimate
 While it is obivious from commit timestamp, it took me roughly 1 hour to complete the task.
+
 And further 5 hours for some extended functionalities.
 
 ## Available Scripts
