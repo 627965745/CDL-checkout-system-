@@ -1,106 +1,44 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 const Kiosk = () => {
     const [totalPrice, setTotalPrice] = useState(0);
     const [cart, setCart] = useState([]);
+    const [offer, setOffer] = useState([]);
     const items = [
-        { id: 1, name: "A", price: 50, multibuy: 3, discount: 20 },
-        { id: 2, name: "B", price: 30, multibuy: 2, discount: 15 },
+        { id: 1, name: "A", price: 50 },
+        { id: 2, name: "B", price: 30 },
         { id: 3, name: "C", price: 20 },
         { id: 4, name: "D", price: 15 },
     ];
+    const offerA = {message:'Item A buy 3 get £20 off', offerItem: "A"}
+    const offerB = {message:'Item B buy 2 get £15 off', offerItem: "B"}
     const numOfIteminCart = (id,cart) => {
         return cart.filter((i) => i.id === id).length;
     };
     const addToCart = (item) => {
-        let newTotal = totalPrice + item.price;
         let newItem = { ...item, key: null };
-
-        // if the number of item A is one less from offer, in this case, every third item A gets a discount, so when the current number of item A +1 is divisible by 3 then the discount will be applied when added.
-        if (item.id === 1 && (numOfIteminCart(item.id,cart) + 1) % 3 === 0) {
-            newTotal -= 20;
-            newItem = {
-                ...item,
-                price: item.price - 20,
-                message: " (special offer : -£20)",
-            };
-        }
-        // if the number of item B is one less from offer, in this case, every secound item B gets a discount, so when the current number of item A +1 is divisible by 2 then the discount will be applied when added.
-        if (item.id === 2 && (numOfIteminCart(item.id,cart) + 1) % 2 === 0) {
-            newTotal -= 15;
-            newItem = {
-                ...item,
-                price: item.price - 15,
-                message: " (special offer : -£15)",
-            };
-        }
-
         setCart([...cart, { ...newItem, key: item.id * Math.random() }]);
-        setTotalPrice(newTotal);
     };
 
     const removeFromCart = (item) => {
         const newCart = cart.filter((i) => i.key !== item.key);
-        const newTotal = totalPrice - item.price;
         setCart(newCart);
-        setTotalPrice(newTotal);
-
-        if (item.id === 1) {
-            if ((numOfIteminCart(item.id,newCart) + 1) % 3 === 0) {
-                updateLastDiscountedItem(20, newCart, item.id);
-            } else if (
-                numOfIteminCart(item.id,newCart) % 3 === 0 &&
-                numOfIteminCart(item.id,newCart) > 2 &&
-                newCart.filter((i) => i.id === item.id && i.message !== undefined).length === 0
-            ) {
-                updateLastItemToDiscounted(20, newCart, item.id);
-            }
-        }
-        if (item.id === 2) {
-            if ((numOfIteminCart(item.id,newCart) + 1) % 2 === 0) {
-                updateLastDiscountedItem(15, newCart, item.id);
-            } else if (
-                numOfIteminCart(item.id,newCart) % 2 === 0 &&
-                numOfIteminCart(item.id,newCart) > 1 &&
-                newCart.filter((i) => i.id === item.id && i.message !== undefined).length === 0
-            ) {
-                updateLastItemToDiscounted(15, newCart, item.id);
-            }
-        }
     };
 
-    const updateLastDiscountedItem = (discount, newCart, id) => {
-        console.log(newCart);
-        const index = newCart
-            .slice()
-            .reverse()
-            .findIndex((item) => item.message !== undefined && item.id === id);
-        if (index !== -1) {
-            const lastIndex = newCart.length - 1 - index;
-            const newCartItems = [...newCart];
-            delete newCartItems[lastIndex].message;
-            newCartItems[lastIndex].price += discount;
-            const newTotal = totalPrice - (newCartItems[lastIndex].price - discount);
-            setCart(newCartItems);
-            setTotalPrice(newTotal);
-        }
-    };
+    useEffect(()=> {
+        let numOfOfferA = Math.floor(numOfIteminCart(1,cart) / 3)
+        let numOfOfferB = Math.floor(numOfIteminCart(2,cart) / 2)
+        let newOffersA = Array.from({ length: numOfOfferA }, () => offerA);
+        let newOffersB = Array.from({ length: numOfOfferB }, () => offerB);
+        let newTotalPrice = numOfIteminCart(1,cart) * 50 + numOfIteminCart(2,cart) * 30 + numOfIteminCart(3,cart) * 20 + numOfIteminCart(4,cart) * 15
+        let OfferList = newOffersA.concat(newOffersB)
+        OfferList = OfferList.map((item, index) => ({ ...item, key: index }));
+        setOffer(OfferList)
+        let totalOffer = numOfOfferA * 20 + numOfOfferB * 15
+        console.log(totalOffer)
+        setTotalPrice(totalPrice => newTotalPrice - totalOffer)
+    },[cart]) 
 
-    const updateLastItemToDiscounted = (discount, newCart, id) => {
-        const index = newCart
-            .slice()
-            .reverse()
-            .findIndex((item) => item.message === undefined && item.id === id);
-        if (index !== -1) {
-            const lastIndex = newCart.length - 1 - index;
-            const newCartItems = [...newCart];
-            newCartItems[lastIndex].message = ` (special offer : -£${discount})`;
-            newCartItems[lastIndex].price -= discount;
-            const newTotal = totalPrice - newCartItems[lastIndex].price - discount;
-            setCart(newCartItems);
-            setTotalPrice(newTotal);
-        }
-    };
     return (
         <div>
             <h1>Kiosk Checkout System</h1>
@@ -117,7 +55,7 @@ const Kiosk = () => {
                         </div>
                     ))}
                 </div>
-                <div>
+                <div style={{ width: "auto", paddingRight:"20px"}}>
                     <h3>Total Price: £{totalPrice}</h3>
                     <h3>Items in cart:</h3>
                     <ul>
@@ -128,6 +66,16 @@ const Kiosk = () => {
                                 <button onClick={() => removeFromCart(item)}>
                                     Delete
                                 </button>
+                            </li>
+                        ))}
+                    </ul>
+                </div>
+                <div style={{ width: "auto"}}>
+                    <h3>Offer applied:</h3>
+                    <ul>
+                        {offer.map((offer) => (
+                            <li key={offer.key}>
+                                {offer.message}
                             </li>
                         ))}
                     </ul>
